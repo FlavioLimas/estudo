@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pt-br" ng-app="helloWord">
+<head>
+	<meta charset="UTF-8">
+	<title>Hello Word</title>
+	<script src="../angular-1.6.2/angular.js"></script>
+	<script>
+		angular.module("helloWord", []);
+		angular.module("helloWord").controller("helloWordCtrl", function ($scope){
+			$scope.message = "Hello Word!";
+		});
+	</script>
+</head>
+<body>
+	<div ng-controller="helloWordCtrl">
+		{{message}}
+	</div>
+</body>
+</html>

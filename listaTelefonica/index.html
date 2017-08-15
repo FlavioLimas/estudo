@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br" ng-app="listaTelefonica">
+<head>
+	<meta charset="UTF-8">
+	<title>Lista Telefonica</title>
+	<link rel="stylesheet" type="text/css" href="../bootstrap-3.3.7-dist/css/bootstrap.css">
+	<style>
+		.jumbotron {
+			width:400px;
+			text-align: center;
+			margin-top: 20px;
+			margin-left:auto;
+			margin-right:auto;
+		}
+	.table {
+		margin-top: 20px;
+	}
+	</style>
+	<script src="../angular-1.6.2/angular.js"></script>
+	<script>
+		angular.module("listaTelefonica", []);
+		angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function ($scope){
+			$scope.app = "Lista Telefonica";
+			$scope.contatos = [
+				{nome:"Pedro", telefone:"99998888"},
+				{nome:"Ana", telefone:"99998877"},
+				{nome:"Maria", telefone:"99998866"}
+			];
+		});
+	</script>
+</head>
+<body ng-controller="listaTelefonicaCtrl">
+	<div class="jumbotron">
+		<!-- <h4 ng-bind="app"></h4> Chamada do controller é possivel dessa forma poram da forma abaixo fica mais clara -->
+		<h3>{{app}}</h3> <!-- Na expressão é possivel fazer calculos e operações como concatenação -->
+		<table class="table table-striped">
+			<tr>
+				<th>Nome</th>
+				<th>Telefone</th>
+				<tr ng-repeat="contato in contatos"> <!-- ng-repeat tem o comportamento igual ao for in imprime todos elementos -->
+					<td>{{contato.nome}}</td>
+					<td>{{contato.telefone}}</td>
+				</tr>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>
