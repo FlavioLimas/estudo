@@ -6,14 +6,33 @@
 	<link rel="stylesheet" type="text/css" href="../bootstrap-3.3.7-dist/css/bootstrap.css">
 	<style>
 		.jumbotron {
-			width:400px;
+			width: 400px;
 			text-align: center;
 			margin-top: 20px;
-			margin-left:auto;
-			margin-right:auto;
+			margin-left: auto;
+			margin-right: auto;
+			border: 10px #000 solid;
+			box-shadow: 10px 10px 20px rgba(0, 0, 0, .5);
+			padding: 15px;
+		}
+		.table tbody tr th {
+			text-align: center;
 		}
 	.table {
 		margin-top: 20px;
+	}
+	.form-control {
+		margin: 15px;
+		width: 100%;
+    	border: 0;
+    	margin-left: 0;
+    	text-align: center;
+	}
+	.selecionado {
+		background-color: yellow;
+	}
+	.negrito {
+		font-weight: bold;
 	}
 	</style>
 	<script src="../angular-1.6.2/angular.js"></script>
@@ -26,23 +45,53 @@
 				{nome:"Ana", telefone:"99998877"},
 				{nome:"Maria", telefone:"99998866"}
 			];
+			$scope.operadoras = [
+				{nome: "Oi", codigo: 14, categoria: "Celular"},
+				{nome: "Vivo", codigo: 15, categoria: "Celular"},
+				{nome: "Tim", codigo: 41, categoria: "Celular"},
+				{nome: "GVT", codigo: 25, categoria: "Fixo"},
+				{nome: "Embratel", codigo: 21, categoria: "Fixo"}
+			];
+			$scope.adicionarContato = function(contato){
+				$scope.contatos.push(angular.copy(contato)); // angular.copy() nesse caso é necessario para que ao adicionar o contato na lista não mude em real time quando editamos no input text
+				delete $scope.contato; // limpa o input text apos inserir os dados na lista
+			};
+			/*$scope.classe1 = "selecionado";
+			$scope.classe2 = "negrito";*/
 		});
 	</script>
 </head>
 <body ng-controller="listaTelefonicaCtrl">
 	<div class="jumbotron">
-		<!-- <h4 ng-bind="app"></h4> Chamada do controller é possivel dessa forma poram da forma abaixo fica mais clara -->
+		<!-- <h4 ng-bind="app"></h4> Chamada do controller é possivel dessa forma porem da forma abaixo fica mais clara -->
 		<h3>{{app}}</h3> <!-- Na expressão é possivel fazer calculos e operações como concatenação -->
-		<table class="table table-striped">
+		{{contatos}}
+		<table class="table"> <!--  table-striped -->
 			<tr>
+				<th></th>
 				<th>Nome</th>
 				<th>Telefone</th>
-				<tr ng-repeat="contato in contatos"> <!-- ng-repeat tem o comportamento igual ao for in imprime todos elementos -->
+				<th>Operadora</th>
+				<tr ng-class="{}" ng-repeat="contato in contatos"> <!-- ng-repeat tem o comportamento igual ao for in imprime todos elementos -->
+					<!-- forma de utilizacao do ng-class="classe" -->
+					<!-- forma de utilizacao do ng-class="[classe1,classe2]" -->
+					<td><input type="checkbox" ng-model="contato.selecionado"></td>
 					<td>{{contato.nome}}</td>
 					<td>{{contato.telefone}}</td>
+					<td>{{contato.operadora.nome}}</td>
+					<!-- <td ng-repeat="(key,value) in contato">{{key + ' - ' + value}}</td> // Essa seria outra forma de implementar e obter o mesmo resultado -->
 				</tr>
 			</tr>
 		</table>
+		<hr>
+		<input class="form-control" placeholder="Nome" type="text" ng-model="contato.nome"/>
+		<input class="form-control" placeholder="Telefone" type="text" ng-model="contato.telefone"/>
+		<!-- {{nome}}<br>
+		{{telefone}} apresenta no front o que é digitado no input text -->
+		<select class="form-control" ng-model="contato.operadora" ng-options="operadora.nome for operadora in operadoras"> <!-- ng-options Percorre o objeto operadora e com a expressao group by categoria agrupa pela categoria -->
+			<option value="">Selecione uma Operadora</option>
+		</select>
+		<button class="btn btn-primary btn-block" ng-click="adicionarContato(contato)" ng-disabled="!contato.nome || !contato.telefone">Adicionar Contato</button> <!-- ng-disabled habilita o botão somente se há dados no campo nome e telefone implementado dessa forma -->
 	</div>
 </body>
 </html>
